@@ -16,15 +16,78 @@ segment .bss
 segment .text
 
 ;---------------------------------------------------------------------;
+; Calcular o tamanho da String                                        ;
+;---------------------------------------------------------------------;
+; Entrada: valor String em ECX                                        ;
+; Saida: tamanho da String em EDX                                     ;
+;---------------------------------------------------------------------;
+tamStr:
+         mov   edx, ecx
+
+proxchar:
+         cmp   byte[edx],NULL     ; Check for null terminator
+         jz    terminei
+         inc   edx
+         jmp   proxchar
+
+terminei:
+         sub   edx, ecx
+         ret
+
+;---------------------------------------------------------------------;
 ; Saida do Resultado no Terminal                                      ;
 ;---------------------------------------------------------------------;
-; Entrada: valor String em BUFFER                                     ;
-; Saida  : valor no terminal                                          ;
+; Entrada: String em ECX                                              ;
+; Saida: valor no terminal                                            ;
 ;---------------------------------------------------------------------;
-saidaResultado:
+mst_saida:
+         call  tamStr
          mov   eax, SYS_WRITE
          mov   ebx, STD_OUT
-         mov   ecx, BUFFER
-         mov   edx, TAM_BUFFER
          int   SYS_CALL
+         ret
+
+;---------------------------------------------------------------------;
+; String para Inteiro                                                 ;
+;---------------------------------------------------------------------;
+; Entrada: String em ESI                                              ;
+; Saida: Valor inteiro em EAX                                         ;
+;---------------------------------------------------------------------;
+str_to_int:
+         xor   ebx, ebx            ; Zeroes ebx to store the result
+
+.prox_digito:
+; 105 :: 0 x 10 + 1 = 1; 1 x 10 + 0 = 10; 10 x 10 + 5 = 105
+         movzx eax, byte[esi]      ; Move with Zero-Extend
+         inc   esi
+         sub   al, '0'
+         imul  ebx, 0xA
+         add   ebx, eax
+         loop  .prox_digito
+         mov   eax, ebx            ; Move the result to eax
+         ret
+
+;---------------------------------------------------------------------;
+; Inteiro para String                                                 ;
+;---------------------------------------------------------------------;
+; Entrada: Valor inteiro em EAX                                       ;
+; Saida: String em ECX                                                ;
+;---------------------------------------------------------------------;
+int_to_str:
+; eax has the number to convert
+         lea   esi, [BUFFER]       ; Load Effective Address
+         add   esi, 0x9
+         mov   byte[esi], NULL     ; Null at the end of the string
+         mov   ebx, 0xA
+
+.prox_digito:
+; 107 :: LF; 7LF; 07LF; 107NULL
+         xor   edx, edx            ; Zeroes edx to store the result
+         div   ebx                 ; Divide ebx by edx
+         add   dl, '0'             ; Convert the digit to its ASCII
+         dec   esi
+         mov   [esi], dl
+         test  eax, eax            ; Check if eax is zero
+         jnz   .prox_digito
+         mov   ecx, BUFFER
          ret
