@@ -58,10 +58,31 @@ Os diretórios seguem a organização progressiva do conteúdo estudado.
 
 ## ▶️ Compilação e Execução
 
+O projeto utiliza um **Makefile** para automatizar o processo de montagem e linkedição.
+
 Para compilar um programa:
 
 ```bash
-$ nasm -f elf64 programa.asm
-$ ld -s -o programa programa.o
+$ make programa
+```
+
+O comando acima irá:
+- Montar o arquivo `programa.asm` com `nasm -f elf64`
+- Gerar o objeto `programa.o`
+- Linkar o executável final `programa`
+
+Para executar:
+
+```bash
 $ ./programa
 ```
+
+🧹 Limpeza de Arquivos Objeto
+
+Para remover todos os arquivos objeto (`*.o`) gerados durante a compilação:
+
+```bash
+$ make clean
+```
+
+Esse comando remove apenas arquivos intermediários, preservando os executáveis.

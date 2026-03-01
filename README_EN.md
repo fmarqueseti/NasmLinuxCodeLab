@@ -58,10 +58,31 @@ The directories follow the progressive organization of the studied content.
 
 ## ▶️ Build and Execution
 
-To assemble and run a program:
+The project uses a **Makefile** to automate the assembling and linking process.
+
+To build a program:
 
 ```bash
-$ nasm -f elf64 program.asm
-$ ld -s -o program program.o
+$ make program
+```
+
+This command will:
+- Assemble `program.asm` using `nasm -f elf64`
+- Generate the object file `program.o`
+- Link the final executable `program`
+
+To run:
+
+```bash
 $ ./program
 ```
+
+🧹 Cleaning Object Files
+
+To remove all generated object files (`*.o`):
+
+```bash
+$ make clean
+```
+
+This command removes only intermediate files while preserving the generated executables.
