@@ -1,7 +1,7 @@
 %include "bibliotecaE.inc"
 
 section .data
-         v1    dw '105', 0xa
+         v1    db '105', NULL
 
 section .text
 
@@ -17,7 +17,6 @@ _start:
 
 converter_valor:
          lea   esi, [v1]           ; Load Effective Address
-         mov   ecx, 0x3            ; Number of digits to convert
          call  str_to_int
          ret
 

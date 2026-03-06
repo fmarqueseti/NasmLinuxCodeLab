@@ -16,11 +16,13 @@ section .data
          p3    db LF,'Processo Multiplicar', NULL
          p4    db LF,'Processo Dividir', NULL
          msgFm db LF,'Terminei.', LF, NULL
+         msgR  db LF,'Resultado: ', NULL      
 
 section .bss
-         opc   resb 1
-         num1  resb 1
-         num2  resb 1
+         opc   resb 8
+         num1  resb 8
+         num2  resb 8
+         sum   resb 4
 
 section .text
 
@@ -61,6 +63,7 @@ _start:
          mov   ecx, num1
          mov   edx, 0x3
          int   SYS_CALL
+         mov   byte [num1 + 1], 0xD    ; Replace LF by NULL
 
          mov   ecx, obV2               ; Valor 2:
          call  mst_saida
@@ -69,6 +72,7 @@ _start:
          mov   ecx, num2
          mov   edx, 0x3
          int   SYS_CALL
+         mov   byte [num2 + 1], 0xD    ; Replace LF by NULL
 
          mov   ah, [opc]
          sub   ah, '0'
@@ -91,6 +95,29 @@ saida:
 adicionar:
          mov   ecx, p1                 ; Processo Adicionar
          call  mst_saida
+
+         mov   ecx, msgR               ; Resultado
+         call  mst_saida
+
+         mov   dword [sum], 0          ; Initialize sum  to 0
+
+         lea   esi, [num1]
+         call  str_to_int
+         mov   ebx, [sum]              ; Load current sum 
+         add   ebx, eax                ; Add num1 to ebx
+         mov   [sum], ebx              ; Store back
+
+         lea   esi, [num2]
+         call  str_to_int
+         mov   ebx, [sum]              ; Load current sum 
+         add   ebx, eax                ; Add num2 to ebx
+         mov   [sum], ebx              ; Store back
+
+         mov   eax, [sum]              ; Move result to eax int_to_str
+         lea   esi, [BUFFER]           ; Use BUFFER from bibliotecaE
+         call  int_to_str              ; Convert to string
+         call  mst_saida               ; Display the result
+
          jmp   saida
 
 subtrair:

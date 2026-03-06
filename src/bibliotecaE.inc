@@ -11,7 +11,7 @@ section .data
          TAM_BUFFER equ 0xA
 
 segment .bss
-         BUFFER     resb 0xA
+         BUFFER     resb TAM_BUFFER
 
 segment .text
 
@@ -56,6 +56,10 @@ mst_saida:
 str_to_int:
          xor   ebx, ebx            ; Zeroes ebx to store the result
 
+         mov   ecx, esi
+         call  tamStr              ; Number of digits to convert
+         mov   ecx, edx
+
 .prox_digito:
 ; 105 :: 0 x 10 + 1 = 1; 1 x 10 + 0 = 10; 10 x 10 + 5 = 105
          movzx eax, byte[esi]      ; Move with Zero-Extend
@@ -74,8 +78,6 @@ str_to_int:
 ; Saida: String em ECX                                                ;
 ;---------------------------------------------------------------------;
 int_to_str:
-; eax has the number to convert
-         lea   esi, [BUFFER]       ; Load Effective Address
          add   esi, 0x9
          mov   byte[esi], NULL     ; Null at the end of the string
          mov   ebx, 0xA
