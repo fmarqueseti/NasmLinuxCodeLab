@@ -22,7 +22,7 @@ section .bss
          opc   resb 8
          num1  resb 8
          num2  resb 8
-         sum   resb 4
+         res   resb 4
 
 section .text
 
@@ -96,24 +96,24 @@ adicionar:
          mov   ecx, p1                 ; Processo Adicionar
          call  mst_saida
 
-         mov   ecx, msgR               ; Resultado
+         mov   ecx, msgR               ;  Resultado
          call  mst_saida
 
-         mov   dword [sum], 0          ; Initialize sum  to 0
+         mov   dword [res], 0          ; Initialize res to 0
 
          lea   esi, [num1]
          call  str_to_int
-         mov   ebx, [sum]              ; Load current sum 
+         mov   ebx, [res]              ; Load current res 
          add   ebx, eax                ; Add num1 to ebx
-         mov   [sum], ebx              ; Store back
+         mov   [res], ebx              ; Store back
 
          lea   esi, [num2]
          call  str_to_int
-         mov   ebx, [sum]              ; Load current sum 
+         mov   ebx, [res]              ; Load current res 
          add   ebx, eax                ; Add num2 to ebx
-         mov   [sum], ebx              ; Store back
+         mov   [res], ebx              ; Store back
 
-         mov   eax, [sum]              ; Move result to eax int_to_str
+         mov   eax, [res]              ; Move result to eax int_to_str
          lea   esi, [BUFFER]           ; Use BUFFER from bibliotecaE
          call  int_to_str              ; Convert to string
          call  mst_saida               ; Display the result
@@ -123,16 +123,88 @@ adicionar:
 subtrair:
          mov   ecx, p2                 ; Processo Subtrair
          call  mst_saida
+
+         mov   ecx, msgR               ; Resultado
+         call  mst_saida
+
+         mov   dword [res], 0          ; Initialize res to 0
+
+         lea   esi, [num1]
+         call  str_to_int
+         mov   ebx, [res]              ; Load current res 
+         add   ebx, eax                ; Add num1 from ebx
+         mov   [res], ebx              ; Store back
+
+         lea   esi, [num2]
+         call  str_to_int
+         mov   ebx, [res]              ; Load current res 
+         sub   ebx, eax                ; Subtract num2 from ebx
+         mov   [res], ebx              ; Store back
+
+         mov   eax, [res]              ; Move result to eax int_to_str
+         lea   esi, [BUFFER]           ; Use BUFFER from bibliotecaE
+         call  int_to_str              ; Convert to string
+         call  mst_saida               ; Display the result
+
          jmp   saida
 
 multiplicar:
          mov   ecx, p3                 ; Processo Multiplicar
          call  mst_saida
+
+         mov   ecx, msgR               ; Resultado
+         call  mst_saida
+
+         mov   dword [res], 0          ; Initialize res to 0
+
+         lea   esi, [num1]
+         call  str_to_int
+         mov   ebx, [res]              ; Load current res 
+         add   ebx, eax                ; Add num1 from ebx
+         mov   [res], ebx              ; Store back
+
+         lea   esi, [num2]
+         call  str_to_int
+         mov   ebx, [res]              ; Load current res 
+         imul  ebx, eax                ; Multiply num2 with ebx
+         mov   [res], ebx              ; Store back
+
+         mov   eax, [res]              ; Move result to eax int_to_str
+         lea   esi, [BUFFER]           ; Use BUFFER from bibliotecaE
+         call  int_to_str              ; Convert to string
+         call  mst_saida               ; Display the result
+
          jmp   saida
 
 dividir:
          mov   ecx, p4                 ; Processo Dividir
          call  mst_saida
+
+         mov   ecx, msgR               ; Resultado
+         call  mst_saida
+
+         mov   dword [res], 0          ; Initialize res to 0
+
+         lea   esi, [num1]
+         call  str_to_int
+         mov   ebx, [res]              ; Load current res 
+         add   ebx, eax                ; Add num1 to ebx (store divisor)
+         mov   [res], ebx              ; Store back
+
+         lea   esi, [num2]
+         call  str_to_int
+         mov   ebx, [res]              ; Load current res (divisor)
+         mov   ecx, eax                ; ecx = divisor (num2)
+         mov   eax, ebx                ; eax = dividend (num1)
+         xor   edx, edx                ; Clear edx for division
+         div   ecx                     ; Divide eax by ecx
+         mov   [res], eax              ; Store back result
+
+         mov   eax, [res]              ; Move result to eax
+         lea   esi, [BUFFER]           ; Use BUFFER from bibliotecaE
+         call  int_to_str              ; Convert to string
+         call  mst_saida               ; Display the result
+
          jmp   saida
 
 msterro:
