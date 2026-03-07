@@ -114,7 +114,6 @@ adicionar:
          mov   [res], ebx              ; Store back
 
          mov   eax, [res]              ; Move result to eax int_to_str
-         lea   esi, [BUFFER]           ; Use BUFFER from bibliotecaE
          call  int_to_str              ; Convert to string
          call  mst_saida               ; Display the result
 
@@ -142,7 +141,6 @@ subtrair:
          mov   [res], ebx              ; Store back
 
          mov   eax, [res]              ; Move result to eax int_to_str
-         lea   esi, [BUFFER]           ; Use BUFFER from bibliotecaE
          call  int_to_str              ; Convert to string
          call  mst_saida               ; Display the result
 
@@ -170,7 +168,6 @@ multiplicar:
          mov   [res], ebx              ; Store back
 
          mov   eax, [res]              ; Move result to eax int_to_str
-         lea   esi, [BUFFER]           ; Use BUFFER from bibliotecaE
          call  int_to_str              ; Convert to string
          call  mst_saida               ; Display the result
 
@@ -201,7 +198,6 @@ dividir:
          mov   [res], eax              ; Store back result
 
          mov   eax, [res]              ; Move result to eax
-         lea   esi, [BUFFER]           ; Use BUFFER from bibliotecaE
          call  int_to_str              ; Convert to string
          call  mst_saida               ; Display the result
 

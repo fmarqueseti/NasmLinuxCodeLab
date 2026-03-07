@@ -78,6 +78,8 @@ str_to_int:
 ; Saida: String em ECX                                                ;
 ;---------------------------------------------------------------------;
 int_to_str:
+         lea   esi, [BUFFER]       ; Buffer where string will be stored
+
          add   esi, 0x9
          mov   byte[esi], NULL     ; Null at the end of the string
          mov   ebx, 0xA
