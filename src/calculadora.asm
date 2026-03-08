@@ -189,7 +189,6 @@ dividir:
 
 resultado: 
          mov   eax, [res]              ; Move result to eax
-         lea   esi, [BUFFER]           ; Use BUFFER from bibliotecaE
          call  int_to_str              ; Convert to string
          call  mst_saida               ; Display the result
          jmp   saida

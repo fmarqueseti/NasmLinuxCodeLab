@@ -16,7 +16,7 @@ Este projeto contém a implementação prática dos exemplos e exercícios do li
 
 O objetivo é consolidar fundamentos de programação de baixo nível utilizando NASM em ambiente Linux, abordando conceitos como:
 
-- Arquitetura x86 (32 bits)
+- Arquitetura x86-64 (AMD64)
 - Manipulação de registradores
 - Uso da pilha (stack)
 - Chamadas de sistema (syscalls)
@@ -35,7 +35,7 @@ This project contains practical implementations of the examples and exercises fr
 
 Its purpose is to strengthen low-level programming fundamentals using NASM in a Linux environment, covering topics such as:
 
-- x86 architecture (32-bit)
+- x86-64 architecture (AMD64)
 - Register manipulation
 - Stack usage
 - Linux system calls
