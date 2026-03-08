@@ -113,12 +113,7 @@ adicionar:
          add   ebx, eax                ; Add num2 to ebx
          mov   [res], ebx              ; Store back
 
-         mov   eax, [res]              ; Move result to eax int_to_str
-         lea   esi, [BUFFER]           ; Use BUFFER from bibliotecaE
-         call  int_to_str              ; Convert to string
-         call  mst_saida               ; Display the result
-
-         jmp   saida
+         jmp   resultado
 
 subtrair:
          mov   ecx, p2                 ; Processo Subtrair
@@ -141,12 +136,7 @@ subtrair:
          sub   ebx, eax                ; Subtract num2 from ebx
          mov   [res], ebx              ; Store back
 
-         mov   eax, [res]              ; Move result to eax int_to_str
-         lea   esi, [BUFFER]           ; Use BUFFER from bibliotecaE
-         call  int_to_str              ; Convert to string
-         call  mst_saida               ; Display the result
-
-         jmp   saida
+         jmp   resultado
 
 multiplicar:
          mov   ecx, p3                 ; Processo Multiplicar
@@ -169,12 +159,7 @@ multiplicar:
          imul  ebx, eax                ; Multiply num2 with ebx
          mov   [res], ebx              ; Store back
 
-         mov   eax, [res]              ; Move result to eax int_to_str
-         lea   esi, [BUFFER]           ; Use BUFFER from bibliotecaE
-         call  int_to_str              ; Convert to string
-         call  mst_saida               ; Display the result
-
-         jmp   saida
+         jmp   resultado
 
 dividir:
          mov   ecx, p4                 ; Processo Dividir
@@ -199,12 +184,14 @@ dividir:
          xor   edx, edx                ; Clear edx for division
          div   ecx                     ; Divide eax by ecx
          mov   [res], eax              ; Store back result
+         
+         jmp   resultado
 
+resultado: 
          mov   eax, [res]              ; Move result to eax
          lea   esi, [BUFFER]           ; Use BUFFER from bibliotecaE
          call  int_to_str              ; Convert to string
          call  mst_saida               ; Display the result
-
          jmp   saida
 
 msterro:
