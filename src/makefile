@@ -1,8 +1,8 @@
 .SUFFIXES:
 .SECONDARY:
 
-%: %.o
-	@ld -s -o $@ $<
+%: %.o %.cpp
+	@g++ $^ -o $@
 
 %.o: %.asm
 	@nasm -f elf64 $<
