@@ -86,3 +86,8 @@ $ make clean
 ```
 
 This command removes only intermediate files while preserving the generated executables.
+
+---
+
+## 📂 **Exercise Details**
+Here are the [exercises](https://github.com/fmarqueseti/NasmLinuxCodeLab/blob/main/DETAIL_EN.md) I have already completed or am currently working on.
