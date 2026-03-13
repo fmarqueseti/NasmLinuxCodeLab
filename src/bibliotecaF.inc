@@ -34,7 +34,7 @@ section .data
          SYS_CALL   equ 0x80          ; Envia informacao ao S.O.
 
 segment .bss
-         BUFFER     resb 0x1
+         BUFFER     resb 0xA
 
 segment .text
 
@@ -90,7 +90,7 @@ tamStr:
          mov   edx, ecx
 
 proxchar:
-         cmp   byte[edx], byte 0
+         cmp   byte[edx], 0xA
          jz    terminei
          inc   edx
          jmp   proxchar

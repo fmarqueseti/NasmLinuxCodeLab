@@ -1,12 +1,17 @@
 %include 'bibliotecaF.inc'
 
 section .data
-         arq   db 'nota'            ; File name
+         arq   db 'nota'            ; Input file name
          tam   equ 0x3
          fd    dq 0                 ; File descriptor
          msg   db 'Resultado: '
          t_msg equ $-msg
-         salto db '', LF
+         r1    db ' - Aprovado', LF
+         t_r1  equ $-r1
+         r2    db ' - Reprovado', LF
+         t_r2  equ $-r2
+         frel  db 'relatorio', NULL ; Output file name
+         fdr   dq 0                 ; Output file descriptor
 
 section .bss
          val1  resw 2
@@ -23,6 +28,14 @@ _start:
          mov   ecx, OPEN_READ
          int   SYS_CALL
          mov   [fd], eax            ; Saves file descriptor value
+
+criarArquivoRelatorio:
+         mov   eax, CREATE_FILE
+         mov   ebx, frel
+         mov   ecx, 0o664           ; Perms: 6-owner, 6-group, 4-others
+         mov   edx, 0x3
+         int   SYS_CALL
+         mov   [fdr], eax           ; Saves file descriptor value
 
 lerLinha1:
          mov   byte[soma], 0x0
@@ -61,8 +74,8 @@ dividePor2:
          mov   [soma], eax
 
 resultado:
-         mov   eax, SYS_WRITE
-         mov   ebx, STD_OUT
+         mov   eax, WRITE_FILE
+         mov   ebx, [fdr]
          mov   ecx, msg
          mov   edx, t_msg
          int   SYS_CALL
@@ -71,14 +84,29 @@ resultado:
          call  int_to_string
          mov   ecx, eax
          call  tamStr
-         mov   eax, SYS_WRITE
-         mov   ebx, STD_OUT
-         int   SYS_CALL
 
-         mov   eax, SYS_WRITE
-         mov   ebx, STD_OUT
-         mov   ecx, salto
-         mov   edx, 0x2
+         mov   eax, WRITE_FILE
+         mov   ebx, [fdr]
+         int   SYS_CALL        
+
+         movzx eax, byte[soma]  ; Move with Zero-Extend
+         cmp   eax, 0x5
+         jb    resReprovado
+
+resAprovado:
+         mov   eax, WRITE_FILE
+         mov   ebx, [fdr]
+         mov   ecx, r1
+         mov   edx, t_r1
+         int   SYS_CALL
+         
+         jmp   lerLinha1
+
+resReprovado:         
+         mov   eax, WRITE_FILE
+         mov   ebx, [fdr]
+         mov   ecx, r2
+         mov   edx, t_r2
          int   SYS_CALL
 
          jmp   lerLinha1
@@ -86,6 +114,11 @@ resultado:
 fecharArquivo:
          mov   eax, CLOSE_FILE
          mov   ebx, [fd]
+         int   SYS_CALL
+
+fecharArquivoRelatorio:
+         mov   eax, CLOSE_FILE
+         mov   ebx, [fdr]
          int   SYS_CALL
 
 final:
