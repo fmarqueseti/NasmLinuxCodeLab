@@ -32,3 +32,69 @@ section .data
          SEEK_END    equ 0x2          ; final do arquivo
 
          SYS_CALL   equ 0x80          ; Envia informacao ao S.O.
+
+segment .bss
+         BUFFER     resb 0x1
+
+segment .text
+
+;---------------------------------------------------------------------;
+; String para Inteiro                                                 ;
+;---------------------------------------------------------------------;
+; Entrada: String em ESI                                              ;
+; Saida: Valor inteiro em EAX                                         ;
+;---------------------------------------------------------------------;
+string_to_int:
+         xor ebx, ebx
+
+.prox_digito:
+         movzx eax, byte[esi]
+         inc   esi
+         sub   al, '0'
+         imul  ebx, 0xA
+         add   ebx, eax
+         loop  .prox_digito
+         mov   eax, ebx
+         ret
+
+;---------------------------------------------------------------------;
+; Inteiro para String                                                 ;
+;---------------------------------------------------------------------;
+; Entrada: Valor inteiro em EAX                                       ;
+; Saida: String em ECX                                                ;
+;---------------------------------------------------------------------;
+int_to_string:
+         lea   esi, [BUFFER]
+         add   esi, 0x9
+         mov   byte[esi], 0xA
+         mov   ebx, 0xA
+         
+.prox_digito:
+         xor   edx, edx
+         div   ebx
+         add   dl, '0'
+         dec   esi
+         mov   [esi], dl
+         test  eax, eax
+         jnz   .prox_digito
+         mov   eax, esi
+         ret
+
+;---------------------------------------------------------------------;
+; Calcular o tamanho da String                                        ;
+;---------------------------------------------------------------------;
+; Entrada: valor String em ECX                                        ;
+; Saida: tamanho da String em EDX                                     ;
+;---------------------------------------------------------------------;
+tamStr:
+         mov   edx, ecx
+
+proxchar:
+         cmp   byte[edx], byte 0
+         jz    terminei
+         inc   edx
+         jmp   proxchar
+
+terminei:
+         sub   edx, ecx
+         ret
