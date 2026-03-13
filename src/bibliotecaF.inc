@@ -26,4 +26,9 @@ section .data
          OPEN_CREATE equ 0x40         ; Se arquivo nao existe, cria
          OPEN_APPEND equ 0x400        ; Arquivo para adicao
 
+         SEEK_FILE   equ 0x13         ; posicionar no arquivo
+         SEEK_SET    equ 0x0          ; inicio do arquivo
+         SEEK_CUR    equ 0x1          ; posicao do cursor
+         SEEK_END    equ 0x2          ; final do arquivo
+
          SYS_CALL   equ 0x80          ; Envia informacao ao S.O.
