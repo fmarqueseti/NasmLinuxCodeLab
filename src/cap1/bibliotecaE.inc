@@ -95,3 +95,4 @@ int_to_str:
          jnz   .prox_digito
          mov   ecx, BUFFER
          ret
+
