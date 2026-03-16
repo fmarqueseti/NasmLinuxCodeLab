@@ -19,6 +19,11 @@ section .data
          OPEN_FILE   equ 2           ; abrir arquivo
          CLOSE_FILE  equ 3           ; fechar arquivo
 
+         O_RDWR      equ 0x2         ; Abre para leitura e escrita
+         O_APPEND    equ 0x8         ; Escrita no final do arquivo
+         O_CREATE    equ 0x40        ; Cria o arquivo se não existir
+         O_TRUNC     equ 0x80        ; Trunca o arquivo para tamanho 0
+
 section .text
 
 ;---------------------------------------------------------------------;
