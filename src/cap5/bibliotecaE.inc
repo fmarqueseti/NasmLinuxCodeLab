@@ -13,6 +13,12 @@ section .data
          SYS_READ    equ 0           ; read
          SYS_WRITE   equ 1           ; print
 
+         OPEN_READ   equ 0           ; abrir arquivo em modo leitura
+
+         READ_FILE   equ 0           ; leitura do arquivo
+         OPEN_FILE   equ 2           ; abrir arquivo
+         CLOSE_FILE  equ 3           ; fechar arquivo
+
 section .text
 
 ;---------------------------------------------------------------------;
