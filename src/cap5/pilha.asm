@@ -1,18 +1,6 @@
-; %include 'bibliotecaE.inc'
+%include 'bibliotecaE.inc'
 
 section .data
-         LF          equ 10          ; Line Feed
-         NULL        equ 0           ; Final da String
-         SYS_EXIT    equ 60          ; Codigo de chamada para finalizar
-         EXIT_SUCESS equ 0           ; Operacao com Sucesso (RET_EXIT) 
-
-         STDIN       equ 0           ; System.in
-         STDOUT      equ 1           ; System.out
-         STDERR      equ 2           ; System.err
-
-         SYS_READ    equ 0           ; read
-         SYS_WRITE   equ 1           ; print
-
          liv1  db '1. Moby Dick', LF, NULL
          liv2  db '2. Tom Swayer', LF, NULL
          liv3  db '3. Duna', LF, NULL
@@ -39,25 +27,3 @@ _start:
          mov   rax, SYS_EXIT
          xor   rdi, rdi              ; Zerar
          syscall
-
-_imprimir:
-         call  _ctCaracteres
-         mov   rax, SYS_WRITE
-         mov   rsi, rdi
-         mov   rdi, STDOUT
-         syscall
-         ret
-
-_ctCaracteres:
-         mov   rbx, rdi
-         mov   rdx, 0
-
-fazLoop:
-         cmp   byte[rbx], NULL
-         je    termina
-         inc   rdx
-         inc   rbx   
-         jmp   fazLoop
-
-termina:
-         ret
